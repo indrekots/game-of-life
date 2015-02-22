@@ -1,0 +1,24 @@
+{
+  "name": "game-of-life",
+  "version": "0.0.1",
+  "authors": [
+    "Indrek Ots <ots.indrek@gmail.com>"
+  ],
+  "description": "Conway's game of life on HTML5 canvas",
+  "main": "index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "html5"
+  ],
+  "license": "(MIT)",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
