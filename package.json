@@ -1,0 +1,23 @@
+{
+  "name": "game-of-life",
+  "version": "0.0.1",
+  "description": "Conway's game of life",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "~0.4.5",
+    "grunt-bower-concat": "~0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/indrekots/game-of-life.git"
+  },
+  "author": "Indrek Ots <ots.indrek@gmail.com>",
+  "license": "(MIT)",
+  "bugs": {
+    "url": "https://github.com/indrekots/game-of-life/issues"
+  }
+}
