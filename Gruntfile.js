@@ -11,13 +11,25 @@ module.exports = function(grunt) {
           relative: false
         }
       }
+    },
+    includeSource: {
+      options: {
+        basePath: 'app',
+        baseUrl: 'public/'
+      },
+      myTarget: {
+        files: {
+          'dist/index.html': 'app/index.tpl.html'
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-bower-concat');
+  grunt.loadNpmTasks('grunt-include-source');
 
   // Default task(s).
-  grunt.registerTask('default', ['bower_concat']);
+  grunt.registerTask('default', ['bower_concat', 'includeSource']);
 
 };
 
