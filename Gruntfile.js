@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-bower-concat');
-  grunt.loadNpmTasks('grunt-include-source');
+  grunt.loadNpmTasks('grunt-wiredep');
 
   // Project configuration.
   grunt.initConfig({
@@ -15,27 +15,20 @@ module.exports = function(grunt) {
         }
       }
     },
-    includeSource: {
-      options: {
-        basePath: 'app',
-        baseUrl: 'public/'
-      },
-      templates: {
-        html: {
-          js: '<script src="{filePath}"></script>',
-          css: '<link rel="stylesheet" type="text/css" href="{filePath}" />',
-        }
-      },
-      myTarget: {
-        files: {
-          'dist/index.html': 'app/index.tpl.html'
-        }
+    wiredep: {
+      task: {
+        src: [
+          'app/views/**/*.html',   // .html support...
+          'app/views/**/*.jade',   // .jade support...
+          'app/styles/main.scss',  // .scss & .sass support...
+          'app/config.yml'         // and .yml & .yaml support out of the box!
+        ]
       }
     }
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['bower_concat', 'includeSource']);
+  grunt.registerTask('default', ['bower_concat']);
 
 };
 
