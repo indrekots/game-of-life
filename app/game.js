@@ -4,6 +4,7 @@ function Game(config) {
 	}
 	
 	this.config = config;
+	this.board = "Board";
 }
 
 exports.Game = Game;
