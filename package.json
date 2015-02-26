@@ -4,11 +4,12 @@
   "description": "Conway's game of life",
   "main": "index.js",
   "dependencies": {
-    "grunt": "~0.4.5",
-    "grunt-bower-concat": "~0.4.0"
+    "grunt": "~0.4.5"
   },
   "devDependencies": {
-    "grunt-wiredep": "~2.0.0"
+    "grunt-wiredep": "~2.0.0",
+    "grunt-bower-concat": "~0.4.0",
+    "grunt-jasmine-node": "^0.2.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

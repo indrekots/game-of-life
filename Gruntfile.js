@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-bower-concat');
   grunt.loadNpmTasks('grunt-wiredep');
+  grunt.loadNpmTasks('grunt-jasmine-node');
 
   // Project configuration.
   grunt.initConfig({
@@ -18,14 +19,24 @@ module.exports = function(grunt) {
     wiredep: {
       task: {
         src: [
-          'app/*.html'   // .html support...
+          'app/*.html'
         ]
       }
+    },
+    jasmine_node: {
+      options: {
+        forceExit: true,
+        match: '.',
+        matchall: false,
+        extensions: 'js',
+        specNameMatcher: 'spec'
+      },
+      all: ['spec/']
     }
   });
 
-  // Default task(s).
-  grunt.registerTask('default', ['bower_concat']);
+  grunt.registerTask('default', ['bower_concat', 'wiredep', 'jasmine_node']);
+  grunt.registerTask('test', ['jasmine_node']);
 
 };
 
