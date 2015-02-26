@@ -25,5 +25,19 @@ describe("Game, when created", function() {
 
 	it("should initialize game board", function() {
 		expect(game.board).not.toBeUndefined();
+		expect(game.board.length).toEqual(800);
+		expect(game.board[0].length).toEqual(600);
+	});
+
+	it("should have an empty board", function() {
+		sumArray = function(arr) {
+			return arr.reduce(function(a, b) {
+				if (a instanceof Array) a = sumArray(a);
+				if (b instanceof Array) b = sumArray(b);
+				return a + b;
+			});
+		}
+
+		expect(sumArray(game.board)).toEqual(0);
 	});
 });

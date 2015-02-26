@@ -2,9 +2,20 @@ function Game(config) {
 	if (typeof config.width === "undefined"  || typeof config.height === "undefined") {
 		throw new Error("Width and height are not provided!");
 	}
+
+	function initBoard() {
+	    var arr = [];
+	    for(i = 0; i < config.width; i++) {
+	        arr[i] = [];
+	        for(j = 0; j < config.height; j++) {
+	            arr[i][j] = 0;
+	        }
+	    }
+	    return arr;
+	}
 	
 	this.config = config;
-	this.board = "Board";
+	this.board = initBoard();
 }
 
 exports.Game = Game;
