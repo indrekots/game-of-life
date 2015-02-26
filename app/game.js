@@ -3,7 +3,7 @@ function Game(config) {
 		throw new Error("Width and height are not provided!");
 	}
 
-	function initBoard() {
+	initBoard = function() {
 	    var arr = [];
 	    for(i = 0; i < config.width; i++) {
 	        arr[i] = [];
