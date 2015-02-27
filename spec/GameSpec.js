@@ -41,3 +41,20 @@ describe("Game, when created", function() {
 		expect(sumArray(game.board)).toEqual(0);
 	});
 });
+
+describe("Game", function() {
+	var game;
+	var config = {
+		width: 800,
+		height: 600
+	};
+
+	beforeEach(function() {
+		game = new game_obj.Game(config);
+	});
+
+	it("can place a live cell", function() {
+		game.placeLiveCell(2, 4);
+		expect(game.board[2][4]).toEqual(1); 
+	});
+})

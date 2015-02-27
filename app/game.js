@@ -18,4 +18,8 @@ function Game(config) {
 	this.board = initBoard();
 }
 
+Game.prototype.placeLiveCell = function(x, y) {
+	this.board[x][y] = 1;
+}
+
 exports.Game = Game;
