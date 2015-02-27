@@ -27,6 +27,8 @@ Game.prototype.placeLiveCell = function(x, y) {
 	function validate(x, y) {
 		if (x < 0) throw new OutOfBoundsError(x, y);
 		if (x > config.width) throw new OutOfBoundsError(x, y);
+		if (y < 0) throw new OutOfBoundsError(x, y);
+		if (y > config.height) throw new OutOfBoundsError(x, y);
 	}
 }
 

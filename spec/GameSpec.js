@@ -67,4 +67,15 @@ describe("Game", function() {
 		expect(function() {game.placeLiveCell(config.width + 5, 3)})
 			.toThrow(new game_obj.OutOfBoundsError(config.width + 5, 3));
 	});
+
+	it("can not place a live cell over the top edge of the board", function() {
+		expect(function() {game.placeLiveCell(2, -4)})
+			.toThrow(new game_obj.OutOfBoundsError(2, -4));
+	});
+
+	it("can not place a live cell over the bottom edge of the board", function() {
+		expect(function() {game.placeLiveCell(2, config.height + 3)})
+			.toThrow(new game_obj.OutOfBoundsError(2, config.height + 3));
+
+	});
 })
