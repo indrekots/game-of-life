@@ -19,7 +19,23 @@ function Game(config) {
 }
 
 Game.prototype.placeLiveCell = function(x, y) {
+	var config = this.config;
+	validate(x, y);
 	this.board[x][y] = 1;
+
+
+	function validate(x, y) {
+		if (x < 0) throw new OutOfBoundsError(x, y);
+		if (x > config.width) throw new OutOfBoundsError(x, y);
+	}
 }
 
+function OutOfBoundsError(x, y) {
+	this.name = "OutOfBoundsError";
+	this.message = "Coordinates x: " + x + " and y: " + y + " are out of board bounds";
+}
+
+OutOfBoundsError.prototype = new Error();
+
+exports.OutOfBoundsError = OutOfBoundsError;
 exports.Game = Game;

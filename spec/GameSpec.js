@@ -1,4 +1,4 @@
-var game_obj = require('../app/game.js');
+var game_obj = require('../app/Game.js');
 
 describe("Game, when created without config object", function() {
 	it("should throw error when canvas width and height are not provided", function() {
@@ -56,5 +56,15 @@ describe("Game", function() {
 	it("can place a live cell", function() {
 		game.placeLiveCell(2, 4);
 		expect(game.board[2][4]).toEqual(1); 
+	});
+
+	it("can not place a live cell over the left edge of the board", function() {
+		expect(function() {game.placeLiveCell(-1, 3)})
+			.toThrow(new game_obj.OutOfBoundsError(-1, 3));
+	});
+
+	it("can not place a live cell over the right edge of the board", function() {
+		expect(function() {game.placeLiveCell(config.width + 5, 3)})
+			.toThrow(new game_obj.OutOfBoundsError(config.width + 5, 3));
 	});
 })
