@@ -98,7 +98,7 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('dev', ['clean', 'copy:dev', 'includeSource', 'wiredep']);
-  grunt.registerTask('default', ['bower_concat', 'wiredep', 'includeSource', 'jasmine_node']);
+  grunt.registerTask('default', ['dev']);
   grunt.registerTask('test', ['jasmine_node']);
 
 };
