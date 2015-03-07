@@ -46,6 +46,7 @@ module.exports = function(grunt) {
     },
     includeSource: {
       options: {
+        basePath: 'target'
       },
       your_target: {
         files: {
@@ -73,13 +74,13 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [grunt.srcJsDir + '**/*.js', grunt.buildDir + 'src/js/components.js'],
-        dest: grunt.targetDir + 'concat.js',
+        dest: grunt.buildDir + 'src/js/concat.js',
       },
     },
     uglify: {
       my_target: {
         files: {
-          'target/game-of-life.min.js': [grunt.targetDir + 'concat.js']
+          'target/src/js/game-of-life.min.js': [grunt.buildDir + 'src/js/concat.js']
         }
       }
     },
@@ -96,10 +97,10 @@ module.exports = function(grunt) {
     }
   });
 
-
-  grunt.registerTask('dev', ['clean', 'copy:dev', 'includeSource', 'wiredep']);
-  grunt.registerTask('default', ['dev']);
   grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('dev', ['clean', 'copy:dev', 'includeSource', 'wiredep']);
+  grunt.registerTask('release', ['test', 'bower_concat', 'concat', 'uglify', 'includeSource', 'clean:build']);
+  grunt.registerTask('default', ['dev']);
 
 };
 
