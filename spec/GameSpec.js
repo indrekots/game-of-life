@@ -1,4 +1,4 @@
-var game_obj = require('../app/Game.js');
+var game_obj = require('../src/js/Game.js');
 
 describe("Game, when created without config object", function() {
 	it("should throw error when canvas width and height are not provided", function() {
