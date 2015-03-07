@@ -7,14 +7,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-include-source');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  // Project configuration.
+  grunt.root = './';
+  grunt.srcDir = grunt.root + 'src/'
+  grunt.srcJsDir = grunt.root + 'src/js/';
+  grunt.buildDir = grunt.root + 'build/'
+  grunt.targetDir = grunt.root + 'target/';
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     bower_concat: {
       all: {
-        dest: 'build/src/js/components.js',
-        cssDest: 'build/src/css/components.css',
+        dest: grunt.buildDir + 'src/js/components.js',
+        cssDest: grunt.buildDir + 'src/css/components.css',
         bowerOptions: {
           relative: false
         }
@@ -23,7 +30,7 @@ module.exports = function(grunt) {
     wiredep: {
       task: {
         src: [
-          '*.html'
+          grunt.targetDir + 'index.html'
         ]
       }
     },
@@ -42,14 +49,14 @@ module.exports = function(grunt) {
       },
       your_target: {
         files: {
-          'dist/index.html': 'index.html'
+          'target/index.html': 'index.html'
         }  
       }
     },
     jslint: { 
       client: {
         src: [
-          'src/js/**/*.js',
+          grunt.srcJsDir + '**/*.js',
           'spec/**/*.js'
         ],
         directives: {
@@ -65,20 +72,32 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['src/js/**/*.js', 'build/src/js/components.js'],
-        dest: 'dist/built.js',
+        src: [grunt.srcJsDir + '**/*.js', grunt.buildDir + 'src/js/components.js'],
+        dest: grunt.targetDir + 'concat.js',
       },
     },
     uglify: {
       my_target: {
         files: {
-          'dist/output.min.js': ['dist/built.js']
+          'target/game-of-life.min.js': [grunt.targetDir + 'concat.js']
         }
       }
+    },
+    copy: {
+      dev: {
+        files: [
+          {expand: true, src: ['src/**'], dest: 'target/', filter: 'isFile'}
+        ]
+      }
+    },
+    clean: {
+      build: [grunt.buildDir],
+      target: [grunt.targetDir]
     }
   });
 
 
+  grunt.registerTask('dev', ['clean', 'copy:dev', 'includeSource', 'wiredep']);
   grunt.registerTask('default', ['bower_concat', 'wiredep', 'includeSource', 'jasmine_node']);
   grunt.registerTask('test', ['jasmine_node']);
 
