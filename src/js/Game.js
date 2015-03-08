@@ -29,15 +29,26 @@ function Game(config) {
 Game.prototype.placeLiveCell = function (x, y) {
     "use strict";
     var config = this.config;
-    function validate(x, y) {
-        if (x < 0 || x > config.boardWidth ||
-                y < 0 || y > config.boardHeight) {
+    function translateCoordinates(x, y) {
+        var xCoord = Math.floor(x / config.cellWidth);
+        var yCoord = Math.floor(y / config.cellHeight);
+        return {
+            x: xCoord,
+            y: yCoord
+        }
+    }
+
+    function validate(point) {
+        console.log(point);
+        if (point.x < 0 || point.x > config.boardWidth ||
+                point.y < 0 || point.y > config.boardHeight) {
             throw new OutOfBoundsError(x, y);
         }
     }
 
-    validate(x, y);
-    this.board[x][y] = 1;
+    var point = translateCoordinates(x, y);
+    validate(point);
+    this.board[point.x][point.y] = 1;
 }
 
 function OutOfBoundsError(x, y) {

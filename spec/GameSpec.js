@@ -60,7 +60,7 @@ describe("Game", function() {
     });
 
     it("can place a live cell", function() {
-        game.placeLiveCell(2, 4);
+        game.placeLiveCell(21, 43);
         expect(game.board[2][4]).toEqual(1); 
     });
 
@@ -70,8 +70,8 @@ describe("Game", function() {
     });
 
     it("can not place a live cell over the right edge of the board", function() {
-        expect(function() {game.placeLiveCell(85, 3)})
-            .toThrow(new game_obj.OutOfBoundsError(85, 3));
+        expect(function() {game.placeLiveCell(815, 3)})
+            .toThrow(new game_obj.OutOfBoundsError(815, 3));
     });
 
     it("can not place a live cell over the top edge of the board", function() {
@@ -80,8 +80,8 @@ describe("Game", function() {
     });
 
     it("can not place a live cell over the bottom edge of the board", function() {
-        expect(function() {game.placeLiveCell(2, 63)})
-            .toThrow(new game_obj.OutOfBoundsError(2, 63));
+        expect(function() {game.placeLiveCell(2, 633)})
+            .toThrow(new game_obj.OutOfBoundsError(2, 633));
 
     });
 })
