@@ -1,35 +1,36 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
+    <head>
     <style>
-      body {
-        margin: 0px;
-        padding: 0px;
-      }
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
     </style>
     <script>
-      function init() {
+        var cellWidth = 10;
+        var cellHeight = 10;
 
-        var handleTick = function handleTick(event) {
-          stage.update();
+        function init() {
+            var stage = new createjs.Stage("myCanvas");
+            stage.on("stagemousedown", function(event) {
+                var x = event.stageX;
+                var y = event.stageY;
+                var xPos = Math.floor(x / 10);
+                var yPos = Math.floor(y / 10);
+                
+                var cell = new createjs.Shape();
+                cell.graphics.beginFill("#000000").drawRect(xPos * cellWidth, yPos * cellHeight, cellWidth, cellHeight);
+                stage.addChild(cell);
+                stage.update();
+            });
         }
-
-        var stage = new createjs.Stage("myCanvas");
-        var line =  new createjs.Shape();
-        createjs.Ticker.addEventListener("tick", handleTick);
-        line.graphics.setStrokeStyle(1);
-        line.graphics.beginStroke("#000000");
-        line.graphics.moveTo(10, 10);
-        line.graphics.lineTo(100, 10);
-        line.graphics.endStroke(); 
-        stage.addChild(line);
-      }
     </script>
-  </head>
-  <body onLoad="init()">
+    </head>
+    <body onLoad="init()">
     <canvas id="myCanvas" width="800" height="600"></canvas>
     <!-- bower:js -->
     <!-- endbower -->
     <!-- include: "type": "js", "files": "src/js/*.js" -->
-  </body>
-</html>       
+    </body>
+</html>
