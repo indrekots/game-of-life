@@ -8,22 +8,55 @@
         }
     </style>
     <script>
-        var cellWidth = 10;
-        var cellHeight = 10;
-
+        var game;
         function init() {
+            game = new Game({
+                canvasWidth: 800,
+                canvasHeight: 600,
+                cellWidth: 10,
+                cellHeight: 10
+            });
+
             var stage = new createjs.Stage("myCanvas");
             stage.on("stagemousedown", function(event) {
-                var x = event.stageX;
-                var y = event.stageY;
-                var xPos = Math.floor(x / 10);
-                var yPos = Math.floor(y / 10);
-                
-                var cell = new createjs.Shape();
-                cell.graphics.beginFill("#000000").drawRect(xPos * cellWidth, yPos * cellHeight, cellWidth, cellHeight);
-                stage.addChild(cell);
-                stage.update();
+                game.placeLiveCell(event.stageX, event.stageY);
+                refresh();
             });
+
+            createjs.Ticker.addEventListener("tick", handleTick);
+            function handleTick(event) {
+                
+            }
+
+            function refresh() {
+                for (var i = 0; i < game.changedCells.length; i++) {
+                    var p = game.changedCells[i];
+                    if (game.board[p.x][p.y] === 1) {
+                        addCell(p.x, p.y);    
+                    }
+                    else {
+                        removeCell(p.x, p.y);
+                    }
+                }    
+                game.changedCells = [];
+                stage.update();
+            }
+
+            function addCell(x, y) {
+                stage.addChild(drawCell(x, y, "#000000"));
+            }
+
+            function removeCell(x, y) {
+                stage.addChild(drawCell(x, y, "#ffffff"));
+            }
+
+            function drawCell(x, y, color) {
+                var cell = new createjs.Shape();
+                var cellWidth = game.config.cellWidth;
+                var cellHeight = game.config.cellHeight;
+                cell.graphics.beginFill(color).drawRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+                return cell;
+            }
         }
     </script>
     </head>

@@ -64,6 +64,13 @@ describe("Game", function() {
         expect(game.board[2][4]).toEqual(1); 
     });
 
+    it("remove cell if placed on an existing cell", function() {
+        game.placeLiveCell(24, 66);
+        expect(game.board[2][6]).toEqual(1);
+        game.placeLiveCell(21, 69);
+        expect(game.board[2][6]).toEqual(0);
+    });
+
     it("can not place a live cell over the left edge of the board", function() {
         expect(function() {game.placeLiveCell(-1, 3)})
             .toThrow(new game_obj.OutOfBoundsError(-1, 3));
@@ -84,4 +91,25 @@ describe("Game", function() {
             .toThrow(new game_obj.OutOfBoundsError(2, 633));
 
     });
-})
+});
+
+describe("Game, when cell has been placed", function() {
+    var game;
+    var config = {
+        canvasWidth: 800,
+        canvasHeight: 600,
+        cellWidth: 10,
+        cellHeight: 10
+    };
+
+    beforeEach(function() {
+        game = new game_obj.Game(config);
+        game.placeLiveCell(24, 66);
+    });
+
+    it("cell coordinates should be in changed cells list", function() {
+        expect(game.changedCells[0]).not.toBeUndefined();
+        expect(game.changedCells[0].x).toEqual(2);
+        expect(game.changedCells[0].y).toEqual(6);
+    });
+});

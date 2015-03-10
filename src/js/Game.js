@@ -1,6 +1,10 @@
 /*jslint plusplus: true */
 function Game(config) {
     "use strict";
+    if (typeof config === "undefined") {
+        throw new Error("No config provided!");
+    }
+
     function initSettings() {
         config.boardWidth = config.canvasWidth / config.cellWidth;
         config.boardHeight = config.canvasHeight / config.cellHeight;
@@ -17,13 +21,11 @@ function Game(config) {
         return arr;
     }
 
-    if (typeof config === "undefined") {
-        throw new Error("No config provided!");
-    }
 
     initSettings();
     this.config = config;
     this.board = initBoard();
+    this.changedCells = [];
 }
 
 Game.prototype.placeLiveCell = function (x, y) {
@@ -48,7 +50,9 @@ Game.prototype.placeLiveCell = function (x, y) {
 
     var point = translateCoordinates(x, y);
     validate(point);
-    this.board[point.x][point.y] = 1;
+    this.board[point.x][point.y] = 1 - this.board[point.x][point.y];
+    this.changedCells.push({x: point.x, y: point.y});
+    console.log("Live cell placed at: (" + point.x + ", " + point.y + ")");
 }
 
 function OutOfBoundsError(x, y) {
