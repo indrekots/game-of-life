@@ -41,7 +41,6 @@ Game.prototype.placeLiveCell = function (x, y) {
     }
 
     function validate(point) {
-        console.log(point);
         if (point.x < 0 || point.x > config.boardWidth ||
                 point.y < 0 || point.y > config.boardHeight) {
             throw new OutOfBoundsError(x, y);
