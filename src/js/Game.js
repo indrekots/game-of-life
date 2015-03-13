@@ -52,6 +52,32 @@ Game.prototype.placeLiveCell = function (x, y) {
     console.log("Live cell placed at: (" + point.x + ", " + point.y + ")");
 }
 
+Game.prototype.nextGeneration = function () {
+    var board = this.board;
+    var config = this.config;
+
+    var nextGen = [];
+    for (var i = 0; i < config.boardWidth; i++) {
+        nextGen[i] = [];
+        for (var j = 0; j < config.boardHeight; j++) {
+            nextGen[i][j] = board[i][j];
+        }
+    }
+
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[i].length; j++) {
+            var neighbours = this.getNeighbourCount(i, j);
+            if (neighbours < 2 && board[i][j] === 1) {
+                nextGen[i][j] = 0;
+            }
+            if (neighbours === 2 && board[i][j] === 1) {
+                nextGen[i][j] = 1;
+            }
+        }
+    }
+    this.board = nextGen;
+}
+
 Game.prototype.getNeighbourCount = function (x, y) {
     var neighbours = 0;
     var board = this.board;

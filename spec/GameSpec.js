@@ -114,13 +114,49 @@ describe("Game, when cell has been placed", function() {
     });
 });
 
+describe("When generating the next generation", function() {
+    var game;
+    var config = {
+        canvasWidth: 800,
+        canvasHeight: 600,
+        cellWidth: 10,
+        cellHeight: 10
+    };
+
+    beforeEach(function() {
+        game = new game_obj.Game(config);
+    });
+
+    it("live cell with 0 live neighbours should die of under-population", function() {
+        game.placeLiveCell(24, 208);
+        game.nextGeneration();
+        expect(game.board[2][20]).toEqual(0);
+    });
+
+    it("live cell with 1 live neighbour should die of under-population", function() {
+        game.placeLiveCell(15, 18);
+        game.placeLiveCell(12, 27);
+        game.nextGeneration();
+        expect(game.board[1][1]).toEqual(0);
+        expect(game.board[1][2]).toEqual(0);
+    });
+
+    it("live cell with 2 live neighbours should live on to the next generation", function() {
+        game.placeLiveCell(5, 9);
+        game.placeLiveCell(18, 7);
+        game.placeLiveCell(2, 11);
+        game.nextGeneration();
+        expect(game.board[0][0]).toEqual(1);
+    });
+});
+
 describe("Board", function() {
     var game;
     var config = {
-        canvasWidth: 3,
-        canvasHeight: 3,
-        cellWidth: 1,
-        cellHeight: 1
+        canvasWidth: 800,
+        canvasHeight: 600,
+        cellWidth: 10,
+        cellHeight: 10
     };
 
     beforeEach(function() {
@@ -128,23 +164,42 @@ describe("Board", function() {
     });
 
     it("cell should have 0 neigbours", function () {
-        game.placeLiveCell(2, 2);
+        game.placeLiveCell(22, 29);
         var count = game.getNeighbourCount(2, 2);
         expect(count).toEqual(0);
     });
 
     it("cell should have 1 neighbour", function () {
-        game.placeLiveCell(2, 1);
-        game.placeLiveCell(2, 2);
-        var count = game.getNeighbourCount(2, 1);
+        game.placeLiveCell(24, 101);
+        game.placeLiveCell(29, 118);
+        var count = game.getNeighbourCount(2, 10);
         expect(count).toEqual(1);
     }); 
 
     it("cell should have 2 neighbours", function() {
-        game.placeLiveCell(1, 0);
-        game.placeLiveCell(1, 1);
-        game.placeLiveCell(1, 2);
-        var count = game.getNeighbourCount(1, 1);
+        game.placeLiveCell(101, 8);
+        game.placeLiveCell(107, 14);
+        game.placeLiveCell(105, 28);
+        var count = game.getNeighbourCount(10, 1);
         expect(count).toEqual(2);        
+    });
+
+    it("cell should have 3 neighbours", function() {
+        game.placeLiveCell(340, 78);
+        game.placeLiveCell(355, 76);
+        game.placeLiveCell(332, 73);
+        game.placeLiveCell(331, 87);
+        var count = game.getNeighbourCount(34, 7);
+        expect(count).toEqual(3);
+    });
+
+    it("cell should have 3 neighbours", function() {
+        game.placeLiveCell(340, 78);
+        game.placeLiveCell(355, 76);
+        game.placeLiveCell(332, 73);
+        game.placeLiveCell(331, 87);
+        game.placeLiveCell(338, 65);
+        var count = game.getNeighbourCount(34, 7);
+        expect(count).toEqual(4);
     });
 });
