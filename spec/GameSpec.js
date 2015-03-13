@@ -113,3 +113,38 @@ describe("Game, when cell has been placed", function() {
         expect(game.changedCells[0].y).toEqual(6);
     });
 });
+
+describe("Board", function() {
+    var game;
+    var config = {
+        canvasWidth: 3,
+        canvasHeight: 3,
+        cellWidth: 1,
+        cellHeight: 1
+    };
+
+    beforeEach(function() {
+        game = new game_obj.Game(config);
+    });
+
+    it("cell should have 0 neigbours", function () {
+        game.placeLiveCell(2, 2);
+        var count = game.getNeighbourCount(2, 2);
+        expect(count).toEqual(0);
+    });
+
+    it("cell should have 1 neighbour", function () {
+        game.placeLiveCell(2, 1);
+        game.placeLiveCell(2, 2);
+        var count = game.getNeighbourCount(2, 1);
+        expect(count).toEqual(1);
+    }); 
+
+    it("cell should have 2 neighbours", function() {
+        game.placeLiveCell(1, 0);
+        game.placeLiveCell(1, 1);
+        game.placeLiveCell(1, 2);
+        var count = game.getNeighbourCount(1, 1);
+        expect(count).toEqual(2);        
+    });
+});

@@ -1,13 +1,12 @@
 /*jslint plusplus: true */
 function Game(config) {
-    "use strict";
     if (typeof config === "undefined") {
         throw new Error("No config provided!");
     }
 
     function initSettings() {
-        config.boardWidth = config.canvasWidth / config.cellWidth;
-        config.boardHeight = config.canvasHeight / config.cellHeight;
+        config.boardWidth = Math.floor(config.canvasWidth / config.cellWidth);
+        config.boardHeight = Math.floor(config.canvasHeight / config.cellHeight);
     }
 
     function initBoard() {
@@ -29,7 +28,6 @@ function Game(config) {
 }
 
 Game.prototype.placeLiveCell = function (x, y) {
-    "use strict";
     var config = this.config;
     function translateCoordinates(x, y) {
         var xCoord = Math.floor(x / config.cellWidth);
@@ -41,8 +39,8 @@ Game.prototype.placeLiveCell = function (x, y) {
     }
 
     function validate(point) {
-        if (point.x < 0 || point.x > config.boardWidth ||
-                point.y < 0 || point.y > config.boardHeight) {
+        if (point.x < 0 || point.x > config.boardWidth -1  ||
+                point.y < 0 || point.y > config.boardHeight -1) {
             throw new OutOfBoundsError(x, y);
         }
     }
@@ -54,8 +52,23 @@ Game.prototype.placeLiveCell = function (x, y) {
     console.log("Live cell placed at: (" + point.x + ", " + point.y + ")");
 }
 
+Game.prototype.getNeighbourCount = function (x, y) {
+    var neighbours = 0;
+    var board = this.board;
+    var rowLimit = board.length-1;
+    var columnLimit = board[0].length-1;
+
+    for(var i = Math.max(0, x-1); i <= Math.min(x+1, rowLimit); i++) {
+        for(var j = Math.max(0, y-1); j <= Math.min(y+1, columnLimit); j++) {
+            if(i !== x || j !== y) {
+                neighbours += board[i][j];  
+            }
+        }
+    }
+    return neighbours;
+}
+
 function OutOfBoundsError(x, y) {
-    "use strict";
     this.name = "OutOfBoundsError";
     this.message = "Coordinates x: " + x + " and y: " + y + " are out of board bounds";
 }
