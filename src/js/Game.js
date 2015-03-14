@@ -48,8 +48,12 @@ Game.prototype.placeLiveCell = function (x, y) {
     var point = translateCoordinates(x, y);
     validate(point);
     this.board[point.x][point.y] = 1 - this.board[point.x][point.y];
-    this.changedCells.push({x: point.x, y: point.y});
-    console.log("Live cell placed at: (" + point.x + ", " + point.y + ")");
+    return point;
+}
+
+Game.prototype.toggleCell = function(x, y) {
+    var point = this.placeLiveCell(x, y);  
+    this.changedCells.push({x: point.x, y: point.y}); 
 }
 
 Game.prototype.nextGeneration = function () {
@@ -71,6 +75,12 @@ Game.prototype.nextGeneration = function () {
                 nextGen[i][j] = 0;
             }
             if (neighbours === 2 && board[i][j] === 1) {
+                nextGen[i][j] = 1;
+            }
+            if (neighbours > 3 && board[i][j] === 1) {
+                nextGen[i][j] = 0;
+            }
+            if (neighbours === 3 && board[i][j] === 0) {
                 nextGen[i][j] = 1;
             }
         }

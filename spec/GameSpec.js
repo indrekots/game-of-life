@@ -93,7 +93,7 @@ describe("Game", function() {
     });
 });
 
-describe("Game, when cell has been placed", function() {
+describe("Game, when cell has been toggled", function() {
     var game;
     var config = {
         canvasWidth: 800,
@@ -104,7 +104,7 @@ describe("Game, when cell has been placed", function() {
 
     beforeEach(function() {
         game = new game_obj.Game(config);
-        game.placeLiveCell(24, 66);
+        game.toggleCell(24, 66);
     });
 
     it("cell coordinates should be in changed cells list", function() {
@@ -147,6 +147,33 @@ describe("When generating the next generation", function() {
         game.placeLiveCell(2, 11);
         game.nextGeneration();
         expect(game.board[0][0]).toEqual(1);
+    });
+
+    it("live cell with 3 live neighbours should live on to the next generation", function() {
+        game.placeLiveCell(5, 9);
+        game.placeLiveCell(18, 7);
+        game.placeLiveCell(2, 11);
+        game.placeLiveCell(15, 16);
+        game.nextGeneration();
+        expect(game.board[0][0]).toEqual(1);
+    });
+
+    it("live cell with more than 3 live neighbours should die of overcrowding", function() {
+        game.placeLiveCell(45, 23);
+        game.placeLiveCell(53, 24);
+        game.placeLiveCell(32, 27);
+        game.placeLiveCell(41, 17);
+        game.placeLiveCell(46, 37);
+        game.nextGeneration();
+        expect(game.board[4][2]).toEqual(0);
+    });
+
+    it("dead cell with exactly 3 live neighbours should become a live cell, as if by reproduction", function() {
+        game.placeLiveCell(23, 34);
+        game.placeLiveCell(5, 32);
+        game.placeLiveCell(14, 46);
+        game.nextGeneration();
+        expect(game.board[1][3]).toEqual(1);
     });
 });
 

@@ -9,17 +9,18 @@
     </style>
     <script>
         var game;
+        var stage;
         function init() {
             game = new Game({
-                canvasWidth: 800,
-                canvasHeight: 600,
+                canvasWidth: 80,
+                canvasHeight: 60,
                 cellWidth: 10,
                 cellHeight: 10
             });
 
-            var stage = new createjs.Stage("myCanvas");
+            stage = new createjs.Stage("myCanvas");
             stage.on("stagemousedown", function(event) {
-                game.placeLiveCell(event.stageX, event.stageY);
+                game.toggleCell(event.stageX, event.stageY);
                 refresh();
             });
 
@@ -27,41 +28,41 @@
             function handleTick(event) {
                 
             }
+        }
 
-            function refresh() {
-                for (var i = 0; i < game.changedCells.length; i++) {
-                    var p = game.changedCells[i];
-                    if (game.board[p.x][p.y] === 1) {
-                        addCell(p.x, p.y);    
-                    }
-                    else {
-                        removeCell(p.x, p.y);
-                    }
-                }    
-                game.changedCells = [];
-                stage.update();
-            }
+        function refresh() {
+            for (var i = 0; i < game.changedCells.length; i++) {
+                var p = game.changedCells[i];
+                if (game.board[p.x][p.y] === 1) {
+                    addCell(p.x, p.y);    
+                }
+                else {
+                    removeCell(p.x, p.y);
+                }
+            }    
+            game.changedCells = [];
+            stage.update();
+        }
 
-            function addCell(x, y) {
-                stage.addChild(drawCell(x, y, "#000000"));
-            }
+        function addCell(x, y) {
+            stage.addChild(drawCell(x, y, "#000000"));
+        }
 
-            function removeCell(x, y) {
-                stage.addChild(drawCell(x, y, "#ffffff"));
-            }
+        function removeCell(x, y) {
+            stage.addChild(drawCell(x, y, "#ffffff"));
+        }
 
-            function drawCell(x, y, color) {
-                var cell = new createjs.Shape();
-                var cellWidth = game.config.cellWidth;
-                var cellHeight = game.config.cellHeight;
-                cell.graphics.beginFill(color).drawRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-                return cell;
-            }
+        function drawCell(x, y, color) {
+            var cell = new createjs.Shape();
+            var cellWidth = game.config.cellWidth;
+            var cellHeight = game.config.cellHeight;
+            cell.graphics.beginFill(color).drawRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+            return cell;
         }
     </script>
     </head>
     <body onLoad="init()">
-    <canvas id="myCanvas" width="800" height="600"></canvas>
+    <canvas id="myCanvas" width="80" height="60"></canvas>
     <!-- bower:js -->
     <!-- endbower -->
     <!-- include: "type": "js", "files": "src/js/*.js" -->
