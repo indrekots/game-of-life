@@ -133,12 +133,35 @@ describe("When generating the next generation", function() {
         expect(game.board[2][20]).toEqual(0);
     });
 
+    it("cell died of under-population (0 neighours) should be in changedCells", function() {
+        game.placeLiveCell(24, 208);
+        game.nextGeneration();
+        expect(game.changedCells.length).toEqual(1);
+        var change = game.changedCells.shift();
+        expect(change.x).toEqual(2);
+        expect(change.y).toEqual(20);    
+    });
+
     it("live cell with 1 live neighbour should die of under-population", function() {
         game.placeLiveCell(15, 18);
         game.placeLiveCell(12, 27);
         game.nextGeneration();
         expect(game.board[1][1]).toEqual(0);
         expect(game.board[1][2]).toEqual(0);
+    });
+
+    it("2 live neighbours should be in changedCells when dying of under-population", function() {
+        game.placeLiveCell(15, 18);
+        game.placeLiveCell(12, 27);
+        game.nextGeneration();
+        expect(game.changedCells.length).toEqual(2);
+        var change1 = game.changedCells.shift();
+        expect(change1.x).toEqual(1);
+        expect(change1.y).toEqual(1);
+
+        var change2 = game.changedCells.shift();
+        expect(change2.x).toEqual(1);
+        expect(change2.y).toEqual(2);
     });
 
     it("live cell with 2 live neighbours should live on to the next generation", function() {

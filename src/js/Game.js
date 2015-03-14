@@ -59,6 +59,7 @@ Game.prototype.toggleCell = function(x, y) {
 Game.prototype.nextGeneration = function () {
     var board = this.board;
     var config = this.config;
+    var changedCells = this.changedCells;
 
     var nextGen = [];
     for (var i = 0; i < config.boardWidth; i++) {
@@ -73,6 +74,7 @@ Game.prototype.nextGeneration = function () {
             var neighbours = this.getNeighbourCount(i, j);
             if (neighbours < 2 && board[i][j] === 1) {
                 nextGen[i][j] = 0;
+                changedCells.push({x: i, y: j});
             }
             if (neighbours === 2 && board[i][j] === 1) {
                 nextGen[i][j] = 1;
