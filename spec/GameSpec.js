@@ -193,7 +193,7 @@ describe("Board", function() {
         expect(count).toEqual(3);
     });
 
-    it("cell should have 3 neighbours", function() {
+    it("cell should have 4 neighbours", function() {
         game.placeLiveCell(340, 78);
         game.placeLiveCell(355, 76);
         game.placeLiveCell(332, 73);
@@ -201,5 +201,55 @@ describe("Board", function() {
         game.placeLiveCell(338, 65);
         var count = game.getNeighbourCount(34, 7);
         expect(count).toEqual(4);
+    });
+
+    it("cell should have 5 neighbours", function() {
+        game.placeLiveCell(340, 78);
+        game.placeLiveCell(355, 76);
+        game.placeLiveCell(332, 73);
+        game.placeLiveCell(331, 87);
+        game.placeLiveCell(338, 65);
+        game.placeLiveCell(344, 61);
+        var count = game.getNeighbourCount(34, 7);
+        expect(count).toEqual(5);
+    });
+
+    it("cell should have 6 neighbours", function() {
+        game.placeLiveCell(340, 78);
+        game.placeLiveCell(355, 76);
+        game.placeLiveCell(332, 73);
+        game.placeLiveCell(331, 87);
+        game.placeLiveCell(338, 65);
+        game.placeLiveCell(344, 61);
+        game.placeLiveCell(357, 69);
+        var count = game.getNeighbourCount(34, 7);
+        expect(count).toEqual(6);
+    });
+
+    it("cell should have 7 neighbours", function() {
+        game.placeLiveCell(340, 78);
+        game.placeLiveCell(355, 76);
+        game.placeLiveCell(332, 73);
+        game.placeLiveCell(331, 87);
+        game.placeLiveCell(338, 65);
+        game.placeLiveCell(344, 61);
+        game.placeLiveCell(357, 69);
+        game.placeLiveCell(342, 81);
+        var count = game.getNeighbourCount(34, 7);
+        expect(count).toEqual(7);
+    });
+
+    it("cell should have 8 neighbours", function() {
+        game.placeLiveCell(340, 78);
+        game.placeLiveCell(355, 76);
+        game.placeLiveCell(332, 73);
+        game.placeLiveCell(331, 87);
+        game.placeLiveCell(338, 65);
+        game.placeLiveCell(344, 61);
+        game.placeLiveCell(357, 69);
+        game.placeLiveCell(342, 81);
+        game.placeLiveCell(357, 87);
+        var count = game.getNeighbourCount(34, 7);
+        expect(count).toEqual(8);
     });
 });
