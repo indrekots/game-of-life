@@ -155,13 +155,8 @@ describe("When generating the next generation", function() {
         game.placeLiveCell(12, 27);
         game.nextGeneration();
         expect(game.changedCells.length).toEqual(2);
-        var change1 = game.changedCells.shift();
-        expect(change1.x).toEqual(1);
-        expect(change1.y).toEqual(1);
-
-        var change2 = game.changedCells.shift();
-        expect(change2.x).toEqual(1);
-        expect(change2.y).toEqual(2);
+        expect(game.changedCells.shift()).toEqual({x: 1, y: 1});
+        expect(game.changedCells.shift()).toEqual({x: 1, y: 2});
     });
 
     it("live cell with 2 live neighbours should live on to the next generation", function() {
@@ -170,6 +165,15 @@ describe("When generating the next generation", function() {
         game.placeLiveCell(2, 11);
         game.nextGeneration();
         expect(game.board[0][0]).toEqual(1);
+    });
+
+    it("with a cell with 2 neighbours, 1 records should be in changedCells", function() {
+        game.placeLiveCell(5, 9);
+        game.placeLiveCell(18, 7);
+        game.placeLiveCell(2, 11);
+        game.nextGeneration();
+        expect(game.changedCells.length).toEqual(1); 
+        expect(game.changedCells.shift()).toEqual({x: 1, y: 1});   
     });
 
     it("live cell with 3 live neighbours should live on to the next generation", function() {
@@ -181,6 +185,15 @@ describe("When generating the next generation", function() {
         expect(game.board[0][0]).toEqual(1);
     });
 
+    it("with a cell with 3 neighbours, no records should be in changedCells", function() {
+        game.placeLiveCell(5, 9);
+        game.placeLiveCell(18, 7);
+        game.placeLiveCell(2, 11);
+        game.placeLiveCell(15, 16);
+        game.nextGeneration();
+        expect(game.changedCells.length).toEqual(0);   
+    });
+
     it("live cell with more than 3 live neighbours should die of overcrowding", function() {
         game.placeLiveCell(45, 23);
         game.placeLiveCell(53, 24);
@@ -189,6 +202,21 @@ describe("When generating the next generation", function() {
         game.placeLiveCell(46, 37);
         game.nextGeneration();
         expect(game.board[4][2]).toEqual(0);
+    });
+
+    it("with a cell with 4 neighours, 5 records should be in changedCells", function() {
+        game.placeLiveCell(45, 23);
+        game.placeLiveCell(53, 24);
+        game.placeLiveCell(32, 27);
+        game.placeLiveCell(41, 17);
+        game.placeLiveCell(46, 37);
+        game.nextGeneration();
+        expect(game.changedCells.length).toEqual(5);  
+        expect(game.changedCells.shift()).toEqual({x: 3, y: 1});
+        expect(game.changedCells.shift()).toEqual({x: 3, y: 3});
+        expect(game.changedCells.shift()).toEqual({x: 4, y: 2});
+        expect(game.changedCells.shift()).toEqual({x: 5, y: 1});
+        expect(game.changedCells.shift()).toEqual({x: 5, y: 3});  
     });
 
     it("dead cell with exactly 3 live neighbours should become a live cell, as if by reproduction", function() {

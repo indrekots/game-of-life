@@ -81,9 +81,11 @@ Game.prototype.nextGeneration = function () {
             }
             if (neighbours > 3 && board[i][j] === 1) {
                 nextGen[i][j] = 0;
+                changedCells.push({x: i, y: j});
             }
             if (neighbours === 3 && board[i][j] === 0) {
                 nextGen[i][j] = 1;
+                changedCells.push({x: i, y: j});
             }
         }
     }
