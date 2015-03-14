@@ -1,7 +1,7 @@
 var game_obj = require('../src/js/Game.js');
 
 describe("Game, when created without config object", function() {
-    it("should throw error when no config object is provided", function() {
+    it("should throw error", function() {
         expect(function() {new game_obj.Game()})
             .toThrow(new Error("No config provided!"));
     });
