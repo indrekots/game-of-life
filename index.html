@@ -38,15 +38,22 @@
         function refresh() {
             for (var i = 0; i < game.changedCells.length; i++) {
                 var p = game.changedCells[i];
-                if (game.board[p.x][p.y] === 1) {
-                    addCell(p.x, p.y);    
-                }
-                else {
-                    removeCell(p.x, p.y);
+                if (isInView(p)) {
+                    if (game.board[p.x][p.y] === 1) {
+                        addCell(p.x, p.y);    
+                    }
+                    else {
+                        removeCell(p.x, p.y);
+                    }
                 }
             }    
             game.changedCells = [];
             stage.update();
+        }
+
+        function isInView(point) {
+            return point.x >= 2 && point.x <= game.config.boardWidth -2 
+                && point.y >= 2 && point.y <= game.config.boardHeight - 2;
         }
 
         function addCell(x, y) {
