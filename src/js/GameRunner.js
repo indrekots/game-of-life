@@ -1,5 +1,9 @@
 var game;
 var stage;
+function GameRunner(config) {
+    
+}
+
 function init() {
     game = new Game({
         canvasWidth: 800,
@@ -61,3 +65,5 @@ function drawCell(x, y, color) {
     cell.graphics.beginFill(color).drawRect((x - 2) * cellWidth, (y - 2) * cellHeight, cellWidth, cellHeight);
     return cell;
 }
+
+exports.GameRunner = GameRunner;
