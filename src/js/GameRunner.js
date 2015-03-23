@@ -1,7 +1,39 @@
 var game;
 var stage;
 function GameRunner(config) {
-    
+    function validateInput() {
+        if (typeof config === "undefined") {
+            throw new Error("No config provided!");
+        }
+        if (typeof config.game === "undefined") {
+            throw new Error("Instance of a game not provided");
+        }
+        if (typeof config.renderer === "undefined") {
+            throw new Error("Instance of a renderer not provided");
+        }
+    }
+
+    validateInput();
+    this.game = config.game;
+    this.renderer = config.renderer;
+}
+
+GameRunner.prototype.init = function() {
+    this.stage = new this.renderer.Stage("myCanvas");
+    this.stage.on("stagemousedown", function(event) {
+        this.game.toggleCell(event.stageX + 20, event.stageY + 20);
+        refresh();
+    });
+
+    this.renderer.Ticker.interval = 1000;
+    this.renderer.Ticker.paused = true;
+    this.renderer.Ticker.addEventListener("tick", handleTick);
+    function handleTick(event) {
+        if (!event.paused) {
+            this.game.nextGeneration();
+            refresh();  
+        }
+    }    
 }
 
 function init() {
