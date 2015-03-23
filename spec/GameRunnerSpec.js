@@ -45,6 +45,17 @@ describe("When GameRunner is created", function() {
 	it("screen can be refreshed", function() {
 		gameRunner.stage = jasmine.createSpyObj("stage", ["update"]);
 		gameRunner.refresh();
+		expect(gameRunner.stage.update).toHaveBeenCalled();
+	});
+
+	it("cell can be added", function() {
+		var cell = jasmine.createSpyObj("cell", ["graphics"]);
+		cell.graphics.beginFill = jasmine.createSpy("beginFill() spy").andReturn(cell.graphics);
+		cell.graphics.drawRect = jasmine.createSpy("drawRect() spy"); 
+		gameRunner.renderer.Shape = jasmine.createSpy("Shape() spy")
+										.andReturn(cell);
+		gameRunner.stage = jasmine.createSpyObj("stage", ["addChild"]);
+		gameRunner.addCell();
 	});
 });
 

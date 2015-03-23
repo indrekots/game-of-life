@@ -57,6 +57,18 @@ GameRunner.prototype.refresh = function() {
     this.stage.update();    
 }
 
+GameRunner.prototype.addCell = function(x, y) {
+    this.stage.addChild(this.drawCell(x, y, "#000000"));   
+}
+
+GameRunner.prototype.drawCell = function(x, y, color) {
+    var cell = new this.renderer.Shape();
+    var cellWidth = this.game.config.cellWidth;
+    var cellHeight = this.game.config.cellHeight;
+    cell.graphics.beginFill(color).drawRect((x - 2) * cellWidth, (y - 2) * cellHeight, cellWidth, cellHeight);
+    return cell;    
+}
+
 function init() {
     game = new Game({
         canvasWidth: 800,
