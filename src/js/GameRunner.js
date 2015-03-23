@@ -36,6 +36,27 @@ GameRunner.prototype.init = function() {
     }    
 }
 
+GameRunner.prototype.refresh = function() {
+    function isInView(point) {
+        return point.x >= 2 && point.x <= game.config.boardWidth -2 
+            && point.y >= 2 && point.y <= game.config.boardHeight - 2;
+    }
+
+    for (var i = 0; i < this.game.changedCells.length; i++) {
+        var p = this.game.changedCells[i];
+        if (isInView(p)) {
+            if (this.game.board[p.x][p.y] === 1) {
+                addCell(p.x, p.y);    
+            }
+            else {
+                removeCell(p.x, p.y);
+            }
+        }
+    }    
+    this.game.changedCells = [];
+    this.stage.update();    
+}
+
 function init() {
     game = new Game({
         canvasWidth: 800,

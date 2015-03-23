@@ -40,6 +40,12 @@ describe("When GameRunner is created", function() {
 		expect(gameRunner.renderer.Ticker.interval).toEqual(1000);
 		expect(gameRunner.renderer.Ticker.paused).toBe(true);
 		expect(gameRunner.renderer.Ticker.addEventListener).toHaveBeenCalled();
+	});
+
+	it("screen can be refreshed", function() {
+		gameRunner.stage = jasmine.createSpyObj("stage", ["update"]);
+		gameRunner.refresh();
+	});
 });
 
 describe("When GameRunner is created without config", function() {
