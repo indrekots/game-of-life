@@ -61,6 +61,10 @@ GameRunner.prototype.addCell = function(x, y) {
     this.stage.addChild(this.drawCell(x, y, "#000000"));   
 }
 
+GameRunner.prototype.removeCell = function(x, y) {
+    this.stage.addChild(this.drawCell(x, y, "#ffffff"));    
+}
+
 GameRunner.prototype.drawCell = function(x, y, color) {
     var cell = new this.renderer.Shape();
     var cellWidth = this.game.config.cellWidth;

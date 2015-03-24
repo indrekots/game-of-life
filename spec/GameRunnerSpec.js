@@ -56,6 +56,13 @@ describe("When GameRunner is created", function() {
 										.andReturn(cell);
 		gameRunner.stage = jasmine.createSpyObj("stage", ["addChild"]);
 		gameRunner.addCell();
+		expect(gameRunner.stage.addChild).toHaveBeenCalled();
+	});
+
+	it("cell can be removed", function() {
+		gameRunner.stage = jasmine.createSpyObj("stage", ["addChild"]);
+		gameRunner.removeCell();
+		expect(gameRunner.stage.addChild).toHaveBeenCalled();	
 	});
 });
 
