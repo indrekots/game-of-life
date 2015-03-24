@@ -19,8 +19,24 @@ describe("When GameRunner is created", function() {
     		game: game,
     		renderer: renderer
     	};
-    	gameRunner = new gameRunnerObj.GameRunner(gameRunnerConfig);
+    	buildGameRunner();
     });
+
+    function buildGameRunner() {
+    	gameRunner = new gameRunnerObj.GameRunner(gameRunnerConfig);
+    	gameRunner.renderer.Stage = jasmine.createSpy("Stage() spy")
+    		.andReturn(jasmine.createSpyObj("stage", ["on", "update", "addChild"]));
+		gameRunner.renderer.Ticker = jasmine.createSpyObj("Ticker", 
+			["interval", "paused", "addEventListener"]);
+		mockGameRunnerGraphics();
+    }
+
+    function mockGameRunnerGraphics() {
+    	var cell = jasmine.createSpyObj("cell", ["graphics"]);
+		cell.graphics.beginFill = jasmine.createSpy("beginFill() spy").andReturn(cell.graphics);
+		cell.graphics.drawRect = jasmine.createSpy("drawRect() spy"); 
+		gameRunner.renderer.Shape = jasmine.createSpy("Shape() spy").andReturn(cell);
+    }
 
 	it("should have an instance of a game defined", function() {
 		expect(gameRunner.game).toBeDefined();
@@ -31,9 +47,6 @@ describe("When GameRunner is created", function() {
 	});
 
 	it("can be initialized", function() {
-		gameRunner.renderer.Stage = jasmine.createSpy("Stage() spy")
-										.andReturn(jasmine.createSpyObj("stage", ["on"]));
-		gameRunner.renderer.Ticker = jasmine.createSpyObj("Ticker", ["interval", "paused", "addEventListener"]);
 		gameRunner.init();
 		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith("myCanvas");
 		expect(gameRunner.stage.on).toHaveBeenCalled();
@@ -43,24 +56,19 @@ describe("When GameRunner is created", function() {
 	});
 
 	it("screen can be refreshed", function() {
-		gameRunner.stage = jasmine.createSpyObj("stage", ["update"]);
+		gameRunner.init();
 		gameRunner.refresh();
 		expect(gameRunner.stage.update).toHaveBeenCalled();
 	});
 
 	it("cell can be added", function() {
-		var cell = jasmine.createSpyObj("cell", ["graphics"]);
-		cell.graphics.beginFill = jasmine.createSpy("beginFill() spy").andReturn(cell.graphics);
-		cell.graphics.drawRect = jasmine.createSpy("drawRect() spy"); 
-		gameRunner.renderer.Shape = jasmine.createSpy("Shape() spy")
-										.andReturn(cell);
-		gameRunner.stage = jasmine.createSpyObj("stage", ["addChild"]);
+		gameRunner.init();
 		gameRunner.addCell();
 		expect(gameRunner.stage.addChild).toHaveBeenCalled();
 	});
 
 	it("cell can be removed", function() {
-		gameRunner.stage = jasmine.createSpyObj("stage", ["addChild"]);
+		gameRunner.init();
 		gameRunner.removeCell();
 		expect(gameRunner.stage.addChild).toHaveBeenCalled();	
 	});
