@@ -19,7 +19,8 @@ describe("When GameRunner is created", function() {
     		game: game,
     		renderer: renderer,
     		canvasId: "canvasId",
-    		refreshInterval: 100
+    		refreshInterval: 100,
+    		paused: true
     	};
     	buildGameRunner();
     });
@@ -53,7 +54,7 @@ describe("When GameRunner is created", function() {
 		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith(gameRunner.config.canvasId);
 		expect(gameRunner.stage.on).toHaveBeenCalled();
 		expect(gameRunner.renderer.Ticker.interval).toEqual(gameRunner.config.refreshInterval);
-		expect(gameRunner.renderer.Ticker.paused).toBe(true);
+		expect(gameRunner.renderer.Ticker.paused).toBe(gameRunner.config.paused);
 		expect(gameRunner.renderer.Ticker.addEventListener).toHaveBeenCalled();
 	});
 
