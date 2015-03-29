@@ -26,7 +26,7 @@ GameRunner.prototype.init = function() {
         refresh();
     });
 
-    this.renderer.Ticker.interval = 1000;
+    this.renderer.Ticker.interval = this.config.refreshInterval;
     this.renderer.Ticker.paused = true;
     this.renderer.Ticker.addEventListener("tick", handleTick);
     function handleTick(event) {

@@ -18,7 +18,8 @@ describe("When GameRunner is created", function() {
 		gameRunnerConfig = {
     		game: game,
     		renderer: renderer,
-    		canvasId: "canvasId"
+    		canvasId: "canvasId",
+    		refreshInterval: 100
     	};
     	buildGameRunner();
     });
@@ -51,7 +52,7 @@ describe("When GameRunner is created", function() {
 		gameRunner.init();
 		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith(gameRunner.config.canvasId);
 		expect(gameRunner.stage.on).toHaveBeenCalled();
-		expect(gameRunner.renderer.Ticker.interval).toEqual(1000);
+		expect(gameRunner.renderer.Ticker.interval).toEqual(gameRunner.config.refreshInterval);
 		expect(gameRunner.renderer.Ticker.paused).toBe(true);
 		expect(gameRunner.renderer.Ticker.addEventListener).toHaveBeenCalled();
 	});
