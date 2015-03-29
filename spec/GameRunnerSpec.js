@@ -17,7 +17,8 @@ describe("When GameRunner is created", function() {
     	game = new gameObj.Game(gameConfig);
 		gameRunnerConfig = {
     		game: game,
-    		renderer: renderer
+    		renderer: renderer,
+    		canvasId: "canvasId"
     	};
     	buildGameRunner();
     });
@@ -48,7 +49,7 @@ describe("When GameRunner is created", function() {
 
 	it("can be initialized", function() {
 		gameRunner.init();
-		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith("myCanvas");
+		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith(gameRunner.config.canvasId);
 		expect(gameRunner.stage.on).toHaveBeenCalled();
 		expect(gameRunner.renderer.Ticker.interval).toEqual(1000);
 		expect(gameRunner.renderer.Ticker.paused).toBe(true);

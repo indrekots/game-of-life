@@ -16,10 +16,11 @@ function GameRunner(config) {
     validateInput();
     this.game = config.game;
     this.renderer = config.renderer;
+    this.config = config;
 }
 
 GameRunner.prototype.init = function() {
-    this.stage = new this.renderer.Stage("myCanvas");
+    this.stage = new this.renderer.Stage(this.config.canvasId);
     this.stage.on("stagemousedown", function(event) {
         this.game.toggleCell(event.stageX + 20, event.stageY + 20);
         refresh();
@@ -62,7 +63,7 @@ GameRunner.prototype.addCell = function(x, y) {
 }
 
 GameRunner.prototype.removeCell = function(x, y) {
-    this.stage.addChild(this.drawCell(x, y, "#ffffff"));    
+    this.stage.addChild(this.   drawCell(x, y, "#ffffff"));    
 }
 
 GameRunner.prototype.drawCell = function(x, y, color) {
