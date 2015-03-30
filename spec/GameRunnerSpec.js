@@ -15,6 +15,7 @@ describe("When GameRunner is created", function() {
 
 	beforeEach(function() {
     	game = new gameObj.Game(gameConfig);
+    	spyOn(game, 'nextGeneration').andCallThrough();
 		gameRunnerConfig = {
     		game: game,
     		renderer: renderer,
@@ -31,6 +32,7 @@ describe("When GameRunner is created", function() {
     		.andReturn(jasmine.createSpyObj("stage", ["on", "update", "addChild"]));
 		gameRunner.renderer.Ticker = jasmine.createSpyObj("Ticker", 
 			["interval", "paused", "addEventListener"]);
+		spyOn(gameRunner, 'refresh').andCallThrough();
 		mockGameRunnerGraphics();
     }
 
@@ -64,6 +66,14 @@ describe("When GameRunner is created", function() {
 		var args = gameRunner.stage.on.argsForCall;
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
 		expect(gameRunner.game.board[4][5]).toEqual(1);
+	});
+
+	it("ticker tick event can be called", function() {
+		gameRunner.init();
+		var args = gameRunner.renderer.Ticker.addEventListener.argsForCall;
+		args[0][1].call(gameRunner, {paused: false});
+		expect(gameRunner.game.nextGeneration).toHaveBeenCalled();
+		expect(gameRunner.refresh).toHaveBeenCalled();
 	});
 	
 	it("screen can be refreshed", function() {
