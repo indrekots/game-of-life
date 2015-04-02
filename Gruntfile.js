@@ -111,7 +111,7 @@ module.exports = function(grunt) {
     coveralls: {
       options: {
         // LCOV coverage file relevant to every target
-        src: 'coverage-results/lcov.info',
+        src: 'coverage/lcov.info',
 
         // When true, grunt-coveralls will only print a warning rather than
         // an error, to prevent CI builds from failing unnecessarily (e.g. if
@@ -120,12 +120,13 @@ module.exports = function(grunt) {
       },
       your_target: {
         // Target-specific LCOV coverage file
-        src: 'coverage-results/extra-results-*.info'
+        src: 'coverage/lcov.info'
       },
     },
   });
 
   grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('test_and_send_coverage', ['jasmine_node', 'coveralls'])
   grunt.registerTask('dev', ['clean', 'copy:dev', 'includeSource', 'wiredep']);
   grunt.registerTask('release', ['test', 'bower_concat', 'concat', 'uglify', 'includeSource', 'clean:build']);
   grunt.registerTask('default', ['dev']);
