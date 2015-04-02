@@ -3,4 +3,4 @@ node_js:
     - "0.10"
 before_install: npm install -g grunt-cli
 install: npm -d install
-script: grunt test_and_send_coverage --verbose
+script: grunt test --verbose && grunt coveralls
