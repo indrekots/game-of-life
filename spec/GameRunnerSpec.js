@@ -1,7 +1,7 @@
 var gameRunnerObj = require('../src/js/GameRunner.js');
 var gameObj = require('../src/js/Game.js');
 
-describe("When GameRunner is created", function() {
+describe("GameRunner", function() {
 	var game;
 	var renderer = {};
 	var gameConfig = {
@@ -68,12 +68,20 @@ describe("When GameRunner is created", function() {
 		expect(gameRunner.game.board[4][5]).toEqual(1);
 	});
 
-	it("ticker tick event can be called", function() {
+	it("when tick event happens and ticker is not paused, game should be refreshed", function() {
 		gameRunner.init();
 		var args = gameRunner.renderer.Ticker.addEventListener.argsForCall;
 		args[0][1].call(gameRunner, {paused: false});
 		expect(gameRunner.game.nextGeneration).toHaveBeenCalled();
 		expect(gameRunner.refresh).toHaveBeenCalled();
+	});
+
+	it("when tick event happens and ticker is paused, game should not be refreshed", function() {
+		gameRunner.init();
+		var args = gameRunner.renderer.Ticker.addEventListener.argsForCall;
+		args[0][1].call(gameRunner, {paused: true});
+		expect(gameRunner.game.nextGeneration).not.toHaveBeenCalled();
+		expect(gameRunner.refresh).not.toHaveBeenCalled();
 	});
 	
 	it("screen can be refreshed", function() {
