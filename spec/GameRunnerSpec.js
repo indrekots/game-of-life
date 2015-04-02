@@ -33,6 +33,7 @@ describe("GameRunner", function() {
 		gameRunner.renderer.Ticker = jasmine.createSpyObj("Ticker", 
 			["interval", "paused", "addEventListener"]);
 		spyOn(gameRunner, 'refresh').andCallThrough();
+		spyOn(gameRunner, 'drawCell').andCallThrough();
 		mockGameRunnerGraphics();
     }
 
@@ -91,15 +92,17 @@ describe("GameRunner", function() {
 		expect(gameRunner.stage.update).toHaveBeenCalled();
 	});
 
-	it("cell can be added", function() {
+	it("when adding a cell, a black rectangle is created", function() {
 		gameRunner.init();
-		gameRunner.addCell();
+		gameRunner.addCell(3, 6);
+		expect(gameRunner.drawCell).toHaveBeenCalledWith(3, 6, "#000000");
 		expect(gameRunner.stage.addChild).toHaveBeenCalled();
 	});
 
-	it("cell can be removed", function() {
+	it("when removing a cell, a black rectangle is redrawn with a white one", function() {
 		gameRunner.init();
-		gameRunner.removeCell();
+		gameRunner.removeCell(5, 8);
+		expect(gameRunner.drawCell).toHaveBeenCalledWith(5, 8, "#ffffff");
 		expect(gameRunner.stage.addChild).toHaveBeenCalled();	
 	});
 });
