@@ -61,10 +61,11 @@ describe("GameRunner", function() {
 			.toHaveBeenCalledWith("tick", jasmine.any(Function));
 	});
 
-	it("mouse clicks are being listened for", function()  {
+	it("when mouse is clicked, game should be refreshed", function()  {
 		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
+		expect(gameRunner.refresh).toHaveBeenCalled();
 		expect(gameRunner.game.board[4][5]).toEqual(1);
 	});
 
