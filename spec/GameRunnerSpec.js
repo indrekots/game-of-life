@@ -105,6 +105,23 @@ describe("GameRunner", function() {
 		expect(gameRunner.stage.update).toHaveBeenCalled();
 	});
 
+	it("when screen is refreshed and deleted cell is out of screen view, nothing should be redrawn", function() {
+		gameRunner.init();
+		game.changedCells.push({x: 1, y: 7});
+		gameRunner.refresh();
+		expect(gameRunner.removeCell).not.toHaveBeenCalled();
+		expect(gameRunner.stage.update).toHaveBeenCalled();
+	});
+
+	it("when screen is refreshed and added cell is out of screen view, nothing should be redrawn", function() {
+		gameRunner.init();
+		game.board[4][79] = 1;
+		game.changedCells.push({x: 4, y: 79});
+		gameRunner.refresh();
+		expect(gameRunner.addCell).not.toHaveBeenCalled();
+		expect(gameRunner.stage.update).toHaveBeenCalled();
+	});
+
 	it("when adding a cell, a black rectangle is created", function() {
 		gameRunner.init();
 		gameRunner.addCell(3, 6);
