@@ -34,6 +34,8 @@ describe("GameRunner", function() {
 			["interval", "paused", "addEventListener"]);
 		spyOn(gameRunner, 'refresh').andCallThrough();
 		spyOn(gameRunner, 'drawCell').andCallThrough();
+		spyOn(gameRunner, 'addCell').andCallThrough();
+		spyOn(gameRunner, 'removeCell').andCallThrough();
 		mockGameRunnerGraphics();
     }
 
@@ -86,9 +88,20 @@ describe("GameRunner", function() {
 		expect(gameRunner.refresh).not.toHaveBeenCalled();
 	});
 	
-	it("screen can be refreshed", function() {
+	it("when screen is refreshed and cell has been added, new cell should be drawn", function() {
 		gameRunner.init();
+		game.board[2][5] = 1;
+		game.changedCells.push({x: 2, y: 5});
 		gameRunner.refresh();
+		expect(gameRunner.addCell).toHaveBeenCalledWith(2, 5);
+		expect(gameRunner.stage.update).toHaveBeenCalled();
+	});
+
+	it("when screen is refreshed and cell has been deleted, cell should be removed", function() {
+		gameRunner.init();
+		game.changedCells.push({x: 4, y: 7});
+		gameRunner.refresh();
+		expect(gameRunner.removeCell).toHaveBeenCalledWith(4, 7);
 		expect(gameRunner.stage.update).toHaveBeenCalled();
 	});
 
