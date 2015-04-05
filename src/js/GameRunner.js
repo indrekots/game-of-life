@@ -1,5 +1,3 @@
-var game;
-var stage;
 function GameRunner(config) {
     function validateInput() {
         if (typeof config === "undefined") {
@@ -22,7 +20,7 @@ function GameRunner(config) {
 GameRunner.prototype.init = function() {
     var _this = this;
     this.stage = new this.renderer.Stage(this.config.canvasId);
-    this.stage.on("stagemousedown", function(event) {
+    this.stage.on("stagemouseup", function(event) {
         _this.game.toggleCell(event.stageX + 20, event.stageY + 20);
         _this.refresh();
     });
@@ -48,13 +46,13 @@ GameRunner.prototype.refresh = function() {
         var p = this.game.changedCells[i];
         if (isInView(p)) {
             if (this.game.board[p.x][p.y] === 1) {
-                this.addCell(p.x, p.y);    
+                this.addCell(p.x, p.y);
             }
             else {
                 this.removeCell(p.x, p.y);
             }
         }
-    }    
+    }
     this.game.changedCells = [];
     this.stage.update();    
 }

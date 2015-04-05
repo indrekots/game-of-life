@@ -34,13 +34,13 @@ describe("Game, when created", function() {
     });
 
     it("should have an empty board", function() {
-        sumArray = function(arr) {
+        var sumArray = function(arr) {
             return arr.reduce(function(a, b) {
                 if (a instanceof Array) a = sumArray(a);
                 if (b instanceof Array) b = sumArray(b);
                 return a + b;
             });
-        }
+        };
 
         expect(sumArray(game.board)).toEqual(0);
     });

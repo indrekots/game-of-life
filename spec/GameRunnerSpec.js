@@ -57,7 +57,7 @@ describe("GameRunner", function() {
 	it("can be initialized", function() {
 		gameRunner.init();
 		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith(gameRunner.config.canvasId);
-		expect(gameRunner.stage.on).toHaveBeenCalledWith("stagemousedown", jasmine.any(Function));
+		expect(gameRunner.stage.on).toHaveBeenCalledWith("stagemouseup", jasmine.any(Function));
 		expect(gameRunner.renderer.Ticker.interval).toEqual(gameRunner.config.refreshInterval);
 		expect(gameRunner.renderer.Ticker.paused).toBe(gameRunner.config.paused);
 		expect(gameRunner.renderer.Ticker.addEventListener)
