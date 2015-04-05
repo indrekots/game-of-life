@@ -29,14 +29,6 @@ function Game(config) {
 
 Game.prototype.placeLiveCell = function (x, y) {
     var config = this.config;
-    function translateCoordinates(x, y) {
-        var xCoord = Math.floor(x / config.cellWidth);
-        var yCoord = Math.floor(y / config.cellHeight);
-        return {
-            x: xCoord,
-            y: yCoord
-        }
-    }
 
     function validate(point) {
         if (point.x < 0 || point.x > config.boardWidth -1  ||
@@ -45,10 +37,19 @@ Game.prototype.placeLiveCell = function (x, y) {
         }
     }
 
-    var point = translateCoordinates(x, y);
+    var point = this.translateCoordinates(x, y);
     validate(point);
     this.board[point.x][point.y] = 1 - this.board[point.x][point.y];
     return point;
+}
+
+Game.prototype.translateCoordinates = function(x, y) {
+    var xCoord = Math.floor(x / this.config.cellWidth);
+    var yCoord = Math.floor(y / this.config.cellHeight);
+    return {
+        x: xCoord,
+        y: yCoord
+    }
 }
 
 Game.prototype.toggleCell = function(x, y) {

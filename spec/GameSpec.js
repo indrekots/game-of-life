@@ -91,6 +91,10 @@ describe("Game", function() {
             .toThrow(new game_obj.OutOfBoundsError(2, 633));
 
     });
+
+    it("canvas coordinates should be translated to board coordinates", function() {
+        expect(game.translateCoordinates(746, 342)).toEqual({x: 74, y: 34});
+    });
 });
 
 describe("Game, when cell has been toggled", function() {

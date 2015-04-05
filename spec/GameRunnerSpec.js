@@ -58,13 +58,15 @@ describe("GameRunner", function() {
 		gameRunner.init();
 		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith(gameRunner.config.canvasId);
 		expect(gameRunner.stage.on).toHaveBeenCalledWith("stagemouseup", jasmine.any(Function));
+		expect(gameRunner.stage.on).toHaveBeenCalledWith("stagemousedown", jasmine.any(Function));
+		expect(gameRunner.stage.on).toHaveBeenCalledWith("stagemousemove", jasmine.any(Function));
 		expect(gameRunner.renderer.Ticker.interval).toEqual(gameRunner.config.refreshInterval);
 		expect(gameRunner.renderer.Ticker.paused).toBe(gameRunner.config.paused);
 		expect(gameRunner.renderer.Ticker.addEventListener)
 			.toHaveBeenCalledWith("tick", jasmine.any(Function));
 	});
 
-	it("when mouse is clicked, game should be refreshed", function()  {
+	it("when mousepress is released, game should be refreshed", function()  {
 		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
