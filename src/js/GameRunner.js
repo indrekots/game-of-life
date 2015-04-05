@@ -20,18 +20,19 @@ function GameRunner(config) {
 }
 
 GameRunner.prototype.init = function() {
+    var _this = this;
     this.stage = new this.renderer.Stage(this.config.canvasId);
     this.stage.on("stagemousedown", function(event) {
-        this.game.toggleCell(event.stageX + 20, event.stageY + 20);
-        this.refresh();
+        _this.game.toggleCell(event.stageX + 20, event.stageY + 20);
+        _this.refresh();
     });
 
     this.renderer.Ticker.interval = this.config.refreshInterval;
     this.renderer.Ticker.paused = this.config.paused;
     this.renderer.Ticker.addEventListener("tick", function(event) {
         if (!event.paused) {
-            this.game.nextGeneration();
-            this.refresh();  
+            _this.game.nextGeneration();
+            _this.refresh();  
         }    
     });
 }
