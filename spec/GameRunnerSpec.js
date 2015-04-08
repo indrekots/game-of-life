@@ -16,6 +16,7 @@ describe("GameRunner", function() {
 	beforeEach(function() {
     	game = new gameObj.Game(gameConfig);
     	spyOn(game, 'nextGeneration').andCallThrough();
+    	spyOn(game, 'translateCoordinates').andCallThrough();
 		gameRunnerConfig = {
     		game: game,
     		renderer: renderer,
@@ -72,6 +73,13 @@ describe("GameRunner", function() {
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
 		expect(gameRunner.refresh).toHaveBeenCalled();
 		expect(gameRunner.game.board[4][5]).toEqual(1);
+	});
+
+	it("when mouse moves, mouse coords should be translated to board coords", function()  {
+		gameRunner.init();
+		var args = gameRunner.stage.on.argsForCall;
+		args[2][1].call(gameRunner, {stageX: 80, stageY: 56});
+		expect(gameRunner.game.translateCoordinates).toHaveBeenCalledWith(80, 56);
 	});
 
 	it("when tick event happens and ticker is not paused, game should be refreshed", function() {
