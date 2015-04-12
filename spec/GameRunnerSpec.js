@@ -95,6 +95,17 @@ describe("GameRunner", function() {
 		expect(gameRunner.refresh).toHaveBeenCalled();
 	});
 
+	it("game board should not be refreshed when mouse is pressed and does not move to a new cell", function() {
+		gameRunner.init();
+		gameRunner.mousePressed = true;
+		gameRunner.mousePressedAt = {x: 34, y: 38};
+		var args = gameRunner.stage.on.argsForCall;
+		args[2][1].call(gameRunner, {stageX: 345, stageY: 386});
+		expect(gameRunner.mousePressedAt).toEqual({x: 34, y: 38});
+		expect(gameRunner.game.toggleCell).not.toHaveBeenCalledWith();
+		expect(gameRunner.refresh).not.toHaveBeenCalled();
+	});
+
 	it("clicked state should be true when mouse is left clicked", function() {
 		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
