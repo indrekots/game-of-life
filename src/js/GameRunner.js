@@ -23,7 +23,7 @@ GameRunner.prototype.init = function() {
     this.mousePressedAt = {};
     this.stage = new this.renderer.Stage(this.config.canvasId);
     this.stage.on("stagemouseup", function(event) {
-        _this.game.toggleCell(event.stageX + 20, event.stageY + 20);
+        _this.game.toggleCell(event.stageX + _this.config.viewPaddingX, event.stageY + _this.config.viewPaddingY);
         _this.refresh();
         _this.mousePressed = false;
     });
@@ -37,7 +37,7 @@ GameRunner.prototype.init = function() {
         var coord = _this.game.translateCoordinates(event.stageX, event.stageY);
         if (_this.mousePressed && JSON.stringify(_this.mousePressedAt) !== JSON.stringify(coord)) {
             _this.mousePressedAt = coord;
-            _this.game.toggleCell(event.stageX + 20, event.stageY + 20);
+            _this.game.toggleCell(event.stageX + _this.config.viewPaddingX, event.stageY + _this.config.viewPaddingY);
             _this.refresh();
         }
     });

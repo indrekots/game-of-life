@@ -16,7 +16,9 @@ function init() {
 		renderer: createjs,
 		canvasId: "myCanvas",
 		refreshInterval: 100,
-		paused: true
+		paused: true,
+		viewPaddingX: 40,
+		viewPaddingY: 40
 	};
 
 	gameRunner = new GameRunner(gameRunnerConfig);

@@ -23,7 +23,9 @@ describe("GameRunner", function() {
     		renderer: renderer,
     		canvasId: "canvasId",
     		refreshInterval: 100,
-    		paused: true
+    		paused: true,
+    		viewPaddingX: 40,
+    		viewPaddingY: 40
     	};
     	buildGameRunner();
     	gameRunner.init();
@@ -67,12 +69,12 @@ describe("GameRunner", function() {
 		expect(gameRunner.renderer.Ticker.addEventListener)
 			.toHaveBeenCalledWith("tick", jasmine.any(Function));
 	});
-
+	
 	it("game should be refreshed when mouse is released", function()  {
 		var args = gameRunner.stage.on.argsForCall;
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
 		expect(gameRunner.refresh).toHaveBeenCalled();
-		expect(gameRunner.game.board[4][5]).toEqual(1);
+		expect(gameRunner.game.board[6][7]).toEqual(1);
 		expect(gameRunner.mousePressed).toBe(false);
 	});
 
@@ -88,7 +90,7 @@ describe("GameRunner", function() {
 		var args = gameRunner.stage.on.argsForCall;
 		args[2][1].call(gameRunner, {stageX: 344, stageY: 378});
 		expect(gameRunner.mousePressedAt).toEqual({x: 34, y: 37});
-		expect(gameRunner.game.toggleCell).toHaveBeenCalledWith(364, 398);
+		expect(gameRunner.game.toggleCell).toHaveBeenCalledWith(384, 418);
 		expect(gameRunner.refresh).toHaveBeenCalled();
 	});
 
