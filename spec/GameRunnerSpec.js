@@ -26,6 +26,7 @@ describe("GameRunner", function() {
     		paused: true
     	};
     	buildGameRunner();
+    	gameRunner.init();
     });
 
     function buildGameRunner() {
@@ -57,7 +58,6 @@ describe("GameRunner", function() {
 	});
 
 	it("can be initialized", function() {
-		gameRunner.init();
 		expect(gameRunner.renderer.Stage).toHaveBeenCalledWith(gameRunner.config.canvasId);
 		expect(gameRunner.stage.on).toHaveBeenCalledWith("stagemouseup", jasmine.any(Function));
 		expect(gameRunner.stage.on).toHaveBeenCalledWith("stagemousedown", jasmine.any(Function));
@@ -69,7 +69,6 @@ describe("GameRunner", function() {
 	});
 
 	it("game should be refreshed when mouse is released", function()  {
-		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
 		expect(gameRunner.refresh).toHaveBeenCalled();
@@ -78,14 +77,12 @@ describe("GameRunner", function() {
 	});
 
 	it("mouse coords should be translated to board coords when mouse moves", function()  {
-		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
 		args[2][1].call(gameRunner, {stageX: 80, stageY: 56});
 		expect(gameRunner.game.translateCoordinates).toHaveBeenCalledWith(80, 56);
 	});
 
 	it("game board should be refreshed when mouse is pressed and mouse moves to a new cell", function() {
-		gameRunner.init();
 		gameRunner.mousePressed = true;
 		gameRunner.mousePressedAt = {x: 34, y: 38};
 		var args = gameRunner.stage.on.argsForCall;
@@ -96,7 +93,6 @@ describe("GameRunner", function() {
 	});
 
 	it("game board should not be refreshed when mouse is pressed and does not move to a new cell", function() {
-		gameRunner.init();
 		gameRunner.mousePressed = true;
 		gameRunner.mousePressedAt = {x: 34, y: 38};
 		var args = gameRunner.stage.on.argsForCall;
@@ -107,7 +103,6 @@ describe("GameRunner", function() {
 	});
 
 	it("clicked state should be true when mouse is left clicked", function() {
-		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
 		args[1][1].call(gameRunner, {stageX: 733, stageY: 245});
 		expect(gameRunner.mousePressed).toBe(true);
@@ -115,7 +110,6 @@ describe("GameRunner", function() {
 	});
 
 	it("when tick event happens and ticker is not paused, game should be refreshed", function() {
-		gameRunner.init();
 		var args = gameRunner.renderer.Ticker.addEventListener.argsForCall;
 		args[0][1].call(gameRunner, {paused: false});
 		expect(gameRunner.game.nextGeneration).toHaveBeenCalled();
@@ -123,7 +117,6 @@ describe("GameRunner", function() {
 	});
 
 	it("when tick event happens and ticker is paused, game should not be refreshed", function() {
-		gameRunner.init();
 		var args = gameRunner.renderer.Ticker.addEventListener.argsForCall;
 		args[0][1].call(gameRunner, {paused: true});
 		expect(gameRunner.game.nextGeneration).not.toHaveBeenCalled();
@@ -131,7 +124,6 @@ describe("GameRunner", function() {
 	});
 	
 	it("when screen is refreshed and cell has been added, new cell should be drawn", function() {
-		gameRunner.init();
 		game.board[2][5] = 1;
 		game.changedCells.push({x: 2, y: 5});
 		gameRunner.refresh();
@@ -140,7 +132,6 @@ describe("GameRunner", function() {
 	});
 
 	it("when screen is refreshed and cell has been deleted, cell should be removed", function() {
-		gameRunner.init();
 		game.changedCells.push({x: 4, y: 7});
 		gameRunner.refresh();
 		expect(gameRunner.removeCell).toHaveBeenCalledWith(4, 7);
@@ -148,7 +139,6 @@ describe("GameRunner", function() {
 	});
 
 	it("when screen is refreshed and deleted cell is out of screen view, nothing should be redrawn", function() {
-		gameRunner.init();
 		game.changedCells.push({x: 1, y: 7});
 		gameRunner.refresh();
 		expect(gameRunner.removeCell).not.toHaveBeenCalled();
@@ -156,7 +146,6 @@ describe("GameRunner", function() {
 	});
 
 	it("when screen is refreshed and added cell is out of screen view, nothing should be redrawn", function() {
-		gameRunner.init();
 		game.board[4][79] = 1;
 		game.changedCells.push({x: 4, y: 79});
 		gameRunner.refresh();
@@ -165,14 +154,12 @@ describe("GameRunner", function() {
 	});
 
 	it("when adding a cell, a black rectangle is created", function() {
-		gameRunner.init();
 		gameRunner.addCell(3, 6);
 		expect(gameRunner.drawCell).toHaveBeenCalledWith(3, 6, "#000000");
 		expect(gameRunner.stage.addChild).toHaveBeenCalled();
 	});
 
 	it("when removing a cell, a black rectangle is redrawn with a white one", function() {
-		gameRunner.init();
 		gameRunner.removeCell(5, 8);
 		expect(gameRunner.drawCell).toHaveBeenCalledWith(5, 8, "#ffffff");
 		expect(gameRunner.stage.addChild).toHaveBeenCalled();	
