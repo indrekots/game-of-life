@@ -17,6 +17,7 @@ describe("GameRunner", function() {
     	game = new gameObj.Game(gameConfig);
     	spyOn(game, 'nextGeneration').andCallThrough();
     	spyOn(game, 'translateCoordinates').andCallThrough();
+    	spyOn(game, 'toggleCell').andCallThrough();
 		gameRunnerConfig = {
     		game: game,
     		renderer: renderer,
@@ -67,7 +68,7 @@ describe("GameRunner", function() {
 			.toHaveBeenCalledWith("tick", jasmine.any(Function));
 	});
 
-	it("when mousepress is released, game should be refreshed", function()  {
+	it("game should be refreshed when mouse is released", function()  {
 		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
@@ -76,11 +77,22 @@ describe("GameRunner", function() {
 		expect(gameRunner.mousePressed).toBe(false);
 	});
 
-	it("when mouse moves, mouse coords should be translated to board coords", function()  {
+	it("mouse coords should be translated to board coords when mouse moves", function()  {
 		gameRunner.init();
 		var args = gameRunner.stage.on.argsForCall;
 		args[2][1].call(gameRunner, {stageX: 80, stageY: 56});
 		expect(gameRunner.game.translateCoordinates).toHaveBeenCalledWith(80, 56);
+	});
+
+	it("game board should be refreshed when mouse is pressed and mouse moves to a new cell", function() {
+		gameRunner.init();
+		gameRunner.mousePressed = true;
+		gameRunner.mousePressedAt = {x: 34, y: 38};
+		var args = gameRunner.stage.on.argsForCall;
+		args[2][1].call(gameRunner, {stageX: 344, stageY: 378});
+		expect(gameRunner.mousePressedAt).toEqual({x: 34, y: 37});
+		expect(gameRunner.game.toggleCell).toHaveBeenCalledWith(364, 398);
+		expect(gameRunner.refresh).toHaveBeenCalled();
 	});
 
 	it("clicked state should be true when mouse is left clicked", function() {
