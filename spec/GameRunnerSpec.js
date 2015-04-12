@@ -73,6 +73,7 @@ describe("GameRunner", function() {
 		args[0][1].call(gameRunner, {stageX: 20, stageY: 34});
 		expect(gameRunner.refresh).toHaveBeenCalled();
 		expect(gameRunner.game.board[4][5]).toEqual(1);
+		expect(gameRunner.mousePressed).toBe(false);
 	});
 
 	it("when mouse moves, mouse coords should be translated to board coords", function()  {
@@ -80,6 +81,14 @@ describe("GameRunner", function() {
 		var args = gameRunner.stage.on.argsForCall;
 		args[2][1].call(gameRunner, {stageX: 80, stageY: 56});
 		expect(gameRunner.game.translateCoordinates).toHaveBeenCalledWith(80, 56);
+	});
+
+	it("clicked state should be true when mouse is left clicked", function() {
+		gameRunner.init();
+		var args = gameRunner.stage.on.argsForCall;
+		args[1][1].call(gameRunner, {stageX: 733, stageY: 245});
+		expect(gameRunner.mousePressed).toBe(true);
+		expect(gameRunner.mousePressedAt).toEqual({x: 73, y: 24});
 	});
 
 	it("when tick event happens and ticker is not paused, game should be refreshed", function() {

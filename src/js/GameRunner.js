@@ -19,24 +19,24 @@ function GameRunner(config) {
 
 GameRunner.prototype.init = function() {
     var _this = this;
-    var mousePressed = false;
-    var mouseAt;
+    this.mousePressed = false;
+    this.mousePressedAt = {};
     this.stage = new this.renderer.Stage(this.config.canvasId);
     this.stage.on("stagemouseup", function(event) {
         _this.game.toggleCell(event.stageX + 20, event.stageY + 20);
         _this.refresh();
-        mousePressed = false;
+        _this.mousePressed = false;
     });
 
     this.stage.on("stagemousedown", function(event) {
-        mousePressed = true;
-        mouseAt = {x: event.stageX, y: event.stageY};
+        _this.mousePressed = true;
+        _this.mousePressedAt = _this.game.translateCoordinates(event.stageX, event.stageY);
     });
 
     this.stage.on("stagemousemove", function(event) {
         var coord = _this.game.translateCoordinates(event.stageX, event.stageY);
-        if (mousePressed && JSON.stringify(mouseAt) !== JSON.stringify(coord)) {
-            mouseAt = coord;
+        if (_this.mousePressed && JSON.stringify(_this.mousePressedAt) !== JSON.stringify(coord)) {
+            _this.mousePressedAt = coord;
             _this.game.toggleCell(event.stageX + 20, event.stageY + 20);
             _this.refresh();
         }
